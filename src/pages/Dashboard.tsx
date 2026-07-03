@@ -44,7 +44,7 @@ export default function Dashboard() {
       {/* Critical alerts banner */}
       {criticalAlerts.length > 0 && (
         <motion.div {...fadeUp(0.05)} className="mb-4">
-          <div className="flex items-center gap-3 p-3.5 rounded-xl bg-amber-50 font-sm">
+          <div className="flex items-center gap-3 p-1.5 rounded-xl bg-amber-50 border border-amber-900 font-sm">
             <AlertTriangle size={16} className="text-amber-900 flex-shrink-0" />
             <div className="flex-1 min-w-0">
               <span className="text-sm text-amber-900 font-medium">{criticalAlerts[0].title}</span>

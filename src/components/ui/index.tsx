@@ -83,10 +83,10 @@ interface BadgeProps {
 export function Badge({ variant = 'default', children, className }: BadgeProps) {
   const variants = {
     default: 'bg-card border-default text-secondary',
-    success: 'bg-emerald-900/30 border-emerald-800 text-emerald-400',
-    warning: 'bg-amber-900/30 border-amber-800 text-amber-400',
-    danger: 'bg-transparent border-red-300 text-red-400',
-    info: 'bg-purple-900/30 border-purple-800 text-purple-400',
+    success: 'bg-emerald-50 border-emerald-800 text-emerald-400',
+    warning: 'bg-amber-50 border-amber-900 text-amber-900',
+    danger: 'bg-amber-50 border-red-300 text-red-400',
+    info: 'bg-purple-50 border-purple-800 text-purple-400',
   }
   return (
     <span className={clsx('inline-flex items-center px-2 py-0.5 text-xs font-medium rounded-full border', variants[variant], className)}>
