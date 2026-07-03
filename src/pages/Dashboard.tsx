@@ -44,11 +44,11 @@ export default function Dashboard() {
       {/* Critical alerts banner */}
       {criticalAlerts.length > 0 && (
         <motion.div {...fadeUp(0.05)} className="mb-4">
-          <div className="flex items-center gap-3 p-3.5 rounded-xl bg-red-100 border-red-900">
-            <AlertTriangle size={16} className="text-red-900 flex-shrink-0" />
+          <div className="flex items-center gap-3 p-3.5 rounded-xl bg-amber-50 font-sm">
+            <AlertTriangle size={16} className="text-amber-900 flex-shrink-0" />
             <div className="flex-1 min-w-0">
-              <span className="text-sm text-red-900 font-medium">{criticalAlerts[0].title}</span>
-              <span className="text-xs text-red-900 ml-2">{criticalAlerts[0].description}</span>
+              <span className="text-sm text-amber-900 font-medium">{criticalAlerts[0].title}</span>
+              <span className="text-xs text-amber-900 ml-2">{criticalAlerts[0].description}</span>
             </div>
             <Badge variant="danger">{criticalAlerts.length} critical</Badge>
           </div>
@@ -107,7 +107,7 @@ export default function Dashboard() {
               {mockUpcomingPayments.slice(0, 7).map((p) => (
                 <div key={p.id} className={clsx(
                   'flex items-center justify-between px-2.5 py-2 rounded-lg transition-colors',
-                  p.urgent ? 'bg-red-900/10 border border-red-800/20' : 'hover:bg-card-hover'
+                  p.urgent ? 'bg-amber-900/10 border border-amber-800/20' : 'hover:bg-card-hover'
                 )}>
                   <div className="flex items-center gap-2.5 min-w-0">
                     <div className={clsx('w-1.5 h-1.5 rounded-full flex-shrink-0', p.urgent ? 'bg-amber-600' : 'bg-purple-400')} />
@@ -162,8 +162,8 @@ export default function Dashboard() {
                   !a.read ? 'bg-blue-900/10 border-blue-900/20' : 'hover:bg-card-hover'
                 )}>
                   <div className={clsx('w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0',
-                    a.severity === 'critical' ? 'bg-red-600' :
-                    a.severity === 'warning' ? 'bg-amber-400' : 'bg-blue-400'
+                    a.severity === 'critical' ? 'bg-amber-300' : 'bg-purple-200',
+                    a.severity === 'warning' ? 'bg-red-700' : 'bg-purple-700'
                   )} />
                   <div className="flex-1 min-w-0">
                     <div className="text-xs font-medium text-primary">{a.title}</div>
@@ -190,7 +190,7 @@ export default function Dashboard() {
                     onClick={() => setActiveTab(tab)}
                     className={clsx(
                       'px-2.5 py-1 text-[11px] rounded-lg font-medium transition-colors capitalize',
-                      activeTab === tab ? 'bg-purple-600/20 text-purple-400' : 'text-muted hover:text-secondary'
+                      activeTab === tab ? 'bg-transparent text-purple-400' : 'text-muted hover:text-secondary'
                     )}
                   >
                     {tab}
@@ -202,10 +202,10 @@ export default function Dashboard() {
               {filteredActivity.map(item => (
                 <div key={item.id} className="flex items-center gap-3 py-2 px-2 rounded-lg hover:bg-card-hover transition-colors">
                   <div className={clsx('w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0',
-                    item.status === 'upcoming' ? 'bg-purple-900/30 text-purple-400' :
-                    item.status === 'predicted' ? 'bg-blue-900/30 text-blue-400' :
-                    item.status === 'warning' ? 'bg-reds-900/30 text-yellow-400' :
-                    'bg-emerald-900/20 text-emerald-400'
+                    item.status === 'upcoming' ? 'bg-transparent text-purple-400' :
+                    item.status === 'predicted' ? 'bg-transparent text-blue-400' :
+                    item.status === 'warning' ? 'bg-transparent text-yellow-400' :
+                    'bg-transparent text-emerald-400'
                   )}>
                     {item.type === 'subscription' ? <CreditCard size={13} /> :
                      item.type === 'insurance' ? <Shield size={13} /> :

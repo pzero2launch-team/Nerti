@@ -85,7 +85,7 @@ export function Badge({ variant = 'default', children, className }: BadgeProps) 
     default: 'bg-card border-default text-secondary',
     success: 'bg-emerald-900/30 border-emerald-800 text-emerald-400',
     warning: 'bg-amber-900/30 border-amber-800 text-amber-400',
-    danger: 'bg-red-900/30 border-red-800 text-red-400',
+    danger: 'bg-transparent border-red-300 text-red-400',
     info: 'bg-purple-900/30 border-purple-800 text-purple-400',
   }
   return (
