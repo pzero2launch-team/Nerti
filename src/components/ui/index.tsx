@@ -1,4 +1,6 @@
-import { forwardRef } from 'react'
+'use client'
+
+import React, { forwardRef } from 'react'
 import clsx from 'clsx'
 
 // ── Button ───────────────────────────────────────────────────────────────────
@@ -31,7 +33,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         {...props}
       >
         {loading && (
-          <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+          <svg className="w-4 h-4 animate-spin mr-2" fill="none" viewBox="0 0 24 24">
             <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
             <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/>
           </svg>
@@ -53,7 +55,7 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 
 export function Input({ label, error, icon, className, ...props }: InputProps) {
   return (
-    <div className="flex flex-col gap-1.5">
+    <div className="flex flex-col gap-1.5 w-full">
       {label && <label className="text-sm font-medium text-secondary">{label}</label>}
       <div className="relative">
         {icon && <div className="absolute left-3 top-1/2 -translate-y-1/2 text-muted">{icon}</div>}
@@ -83,10 +85,10 @@ interface BadgeProps {
 export function Badge({ variant = 'default', children, className }: BadgeProps) {
   const variants = {
     default: 'bg-card border-default text-secondary',
-    success: 'bg-emerald-50 border-emerald-800 text-emerald-400',
-    warning: 'bg-amber-50 border-amber-900 text-amber-900',
-    danger: 'bg-amber-50 border-red-300 text-red-400',
-    info: 'bg-purple-50 border-purple-800 text-purple-400',
+    success: 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400',
+    warning: 'bg-amber-500/10 border-amber-500/20 text-amber-400',
+    danger: 'bg-red-500/10 border-red-500/20 text-red-400',
+    info: 'bg-purple-500/10 border-purple-500/20 text-purple-400',
   }
   return (
     <span className={clsx('inline-flex items-center px-2 py-0.5 text-xs font-medium rounded-full border', variants[variant], className)}>
@@ -96,18 +98,17 @@ export function Badge({ variant = 'default', children, className }: BadgeProps) 
 }
 
 // ── Card ─────────────────────────────────────────────────────────────────────
-interface CardProps {
+interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode
   className?: string
   hover?: boolean
-  onClick?: () => void
 }
 
-export function Card({ children, className, hover, onClick }: CardProps) {
+export function Card({ children, className, hover, ...props }: CardProps) {
   return (
     <div
       className={clsx('card p-4', hover && 'card-hover cursor-pointer', className)}
-      onClick={onClick}
+      {...props}
     >
       {children}
     </div>

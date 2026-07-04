@@ -1,9 +1,24 @@
-import { useState } from 'react'
-import { Outlet, NavLink, useNavigate } from 'react-router-dom'
+'use client'
+
+import React, { useState } from 'react'
+import Link from 'next/link'
+import { usePathname, useRouter } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
-  LayoutDashboard, CreditCard, Shield, Upload, User, Settings,
-  Bell, Sun, Moon, LogOut, Menu, X, ChevronRight, Zap, ReceiptText
+  LayoutDashboard,
+  CreditCard,
+  Shield,
+  Upload,
+  User,
+  Settings,
+  LogOut,
+  Menu,
+  X,
+  Bell,
+  Sun,
+  Moon,
+  ChevronRight,
+  ReceiptText
 } from 'lucide-react'
 import clsx from 'clsx'
 import { useAuthStore, useThemeStore, useAlertStore } from '@/store'
@@ -21,18 +36,39 @@ const bottomNavItems = [
   { to: '/settings', label: 'Settings', icon: Settings },
 ]
 
-export default function AppLayout() {
+export default function AppLayout({ children }: { children: React.ReactNode }) {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [notifOpen, setNotifOpen] = useState(false)
-  const navigate = useNavigate()
+  const pathname = usePathname()
+  const router = useRouter()
   const { user, logout } = useAuthStore()
   const { isDark, toggle } = useThemeStore()
   const { alerts, markRead, markAllRead } = useAlertStore()
   const unread = alerts.filter(a => !a.read).length
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    // We will update this with Supabase logout later
     logout()
-    navigate('/')
+    router.push('/')
+  }
+
+  const NavLink = ({ to, label, icon: Icon, onClick }: any) => {
+    const isActive = pathname === to
+    return (
+      <Link
+        href={to}
+        onClick={onClick}
+        className={clsx(
+          'flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-150',
+          isActive
+            ? 'bg-purple-600/15 text-purple-400 border border-purple-600/20'
+            : 'text-secondary hover:text-primary hover:bg-card'
+        )}
+      >
+        <Icon size={16} />
+        {label}
+      </Link>
+    )
   }
 
   return (
@@ -64,39 +100,25 @@ export default function AppLayout() {
         {/* Nav */}
         <nav className="flex-1 px-3 py-4 flex flex-col gap-0.5 overflow-y-auto">
           <div className="text-[10px] font-semibold text-muted uppercase tracking-wider px-2 mb-2">Overview</div>
-          {navItems.map(({ to, label, icon: Icon }) => (
+          {navItems.map((item) => (
             <NavLink
-              key={to}
-              to={to}
+              key={item.to}
+              to={item.to}
+              label={item.label}
+              icon={item.icon}
               onClick={() => setSidebarOpen(false)}
-              className={({ isActive }) => clsx(
-                'flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-150',
-                isActive
-                  ? 'bg-purple-600/15 text-purple-400 border border-purple-600/20'
-                  : 'text-secondary hover:text-primary hover:bg-card'
-              )}
-            >
-              <Icon size={16} />
-              {label}
-            </NavLink>
+            />
           ))}
 
           <div className="text-[10px] font-semibold text-muted uppercase tracking-wider px-2 mt-4 mb-2">Account</div>
-          {bottomNavItems.map(({ to, label, icon: Icon }) => (
+          {bottomNavItems.map((item) => (
             <NavLink
-              key={to}
-              to={to}
+              key={item.to}
+              to={item.to}
+              label={item.label}
+              icon={item.icon}
               onClick={() => setSidebarOpen(false)}
-              className={({ isActive }) => clsx(
-                'flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-150',
-                isActive
-                  ? 'bg-purple-600/15 text-purple-400 border border-purple-600/20'
-                  : 'text-secondary hover:text-primary hover:bg-card'
-              )}
-            >
-              <Icon size={16} />
-              {label}
-            </NavLink>
+            />
           ))}
         </nav>
 
@@ -105,7 +127,7 @@ export default function AppLayout() {
           <div className="mx-3 mb-3 p-3 rounded-lg bg-purple-600/10 border border-purple-600/20">
             <div className="text-xs font-semibold text-purple-400">Free Trial</div>
             <div className="text-[11px] text-muted mt-0.5">
-              Ends {user.trialEndsAt} — <span className="text-purple-400 cursor-pointer" onClick={() => navigate('/billing')}>Upgrade</span>
+              Ends {user.trialEndsAt} — <Link href="/billing" className="text-purple-400 cursor-pointer">Upgrade</Link>
             </div>
           </div>
         )}
@@ -201,7 +223,7 @@ export default function AppLayout() {
                   </div>
                   <div className="px-4 py-2.5 border-t border-default">
                     <button
-                      onClick={() => { navigate('/settings'); setNotifOpen(false) }}
+                      onClick={() => { router.push('/settings'); setNotifOpen(false) }}
                       className="text-xs text-purple-400 hover:text-purple-300 flex items-center gap-1"
                     >
                       Notification settings <ChevronRight size={12} />
@@ -213,7 +235,7 @@ export default function AppLayout() {
           </div>
 
           {/* Profile */}
-          <button onClick={() => navigate('/profile')} className="w-8 h-8 rounded-full bg-purple-600/20 border border-purple-600/30 flex items-center justify-center text-xs font-semibold text-purple-400">
+          <button onClick={() => router.push('/profile')} className="w-8 h-8 rounded-full bg-purple-600/20 border border-purple-600/30 flex items-center justify-center text-xs font-semibold text-purple-400">
             {user?.name?.charAt(0) ?? 'U'}
           </button>
         </header>
@@ -221,13 +243,13 @@ export default function AppLayout() {
         {/* Page content */}
         <main className="flex-1 overflow-y-auto">
           <motion.div
-            key={location.pathname}
+            key={pathname}
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.2 }}
             className="h-full"
           >
-            <Outlet />
+            {children}
           </motion.div>
         </main>
       </div>
