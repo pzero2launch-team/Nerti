@@ -1,90 +1,76 @@
-# Nerti — Financial Intelligence UI
+# Nerti — Financial Intelligence
 
 > See what your money is doing before it moves.
 
-Nerti is a production-grade frontend-only SaaS prototype for predictive financial visibility. Built with React, TypeScript, Tailwind CSS, Zustand, Recharts, and Framer Motion.
+Nerti is a production-grade SaaS platform for predictive financial visibility, built with Next.js and Supabase.
 
----
+## Features
 
-## Quick start
+- **Predictive Visibility**: See scheduled and predicted deductions 24–72 hours in advance.
+- **Subscription Tracking**: Monitor all recurring services in one unified dashboard.
+- **Insurance Management**: Keep track of premiums and renewal dates for all policies.
+- **Real-time Alerts**: Get notified about unusual activity or upcoming payments.
+- **Bank Statement Analysis**: Upload PDF/CSV statements to automatically detect recurring commitments.
 
-```bash
-npm install
-npm run dev
-```
+## Tech Stack
 
-Open http://localhost:5173
+- **Framework**: Next.js 14 (App Router)
+- **Database & Auth**: Supabase
+- **Styling**: Tailwind CSS
+- **Animations**: Framer Motion
+- **Charts**: Recharts
+- **Icons**: Lucide React
+- **State Management**: Zustand (UI state)
 
----
+## Getting Started
 
-## Login
+### Prerequisites
 
-Use **any email and password** — authentication is mocked (Zustand, no backend).
+- Node.js 18+
+- A Supabase project
 
----
+### Installation
 
-## Routes
+1. Clone the repository
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Set up environment variables in `.env.local`:
+   ```
+   NEXT_PUBLIC_SUPABASE_URL=your-supabase-url
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=your-supabase-anon-key
+   ```
+4. Run the development server:
+   ```bash
+   npm run dev
+   ```
 
-| Route | Description |
-|---|---|
-| `/` | Landing page |
-| `/about` | About page |
-| `/login` | Login (mock) |
-| `/signup` | Signup → onboarding |
-| `/onboarding` | 4-step onboarding flow |
-| `/dashboard` | Main dashboard |
-| `/subscriptions` | Subscription tracker |
-| `/insurance` | Insurance module |
-| `/upload` | Bank statement upload (UI only) |
-| `/profile` | Profile page |
-| `/settings` | Notification + appearance settings |
-| `/billing` | Plan and checkout UI |
-
----
-
-## Stack
-
-- **React 18** + **Vite** + **TypeScript**
-- **Tailwind CSS** — dark/light mode via class strategy
-- **Zustand** — auth, theme, subscriptions, insurance, alerts, onboarding
-- **Recharts** — area, bar, pie charts
-- **Framer Motion** — page transitions and micro-animations
-- **Lucide React** — icons
-- **date-fns** — date formatting
-
----
+Open [http://localhost:3000](http://localhost:3000) to see the application.
 
 ## Architecture
 
 ```
 src/
+  app/          — Next.js App Router (pages and layouts)
   components/
-    ui/         — Button, Input, Card, Badge, StatCard, Toggle, etc.
-    layout/     — AppLayout (sidebar + topbar)
-    charts/     — Recharts chart components
-  data/
-    mockData.ts — All mock subscriptions, insurance, alerts, activity
-  pages/        — One file per route
-  store/        — Zustand stores (auth, theme, subscriptions, insurance, alerts, onboarding)
+    ui/         — Reusable UI components
+    layout/     — App layout components
+    charts/     — Recharts implementation
+  lib/
+    supabase/   — Supabase client and server configuration
+    actions/    — Server actions for data mutations
+  store/        — Zustand stores for client-side UI state
   types/        — TypeScript interfaces
 ```
 
----
+## Security
 
-## Design system
+Nerti is built with security as a priority:
+- **Read-only**: We do not initiate transactions.
+- **End-to-End Encryption**: Data is encrypted at rest and in transit.
+- **RLS**: Row Level Security ensures users can only access their own data.
 
-- **Base**: deep navy `#04070f` background
-- **Cards**: `#0d1628` with `#1a2d4a` borders
-- **Accent**: blue `#3b82f6`
-- **Typography**: Inter (UI) + JetBrains Mono (numbers/code)
-- **No emojis** — icons only (Lucide)
-- Dark mode default, light mode toggle preserved in localStorage
+## License
 
----
-
-## Notes
-
-- All data is mocked locally — no API calls, no backend
-- Auth state is persisted in localStorage via Zustand persist
-- File upload UI is fully simulated (no real parsing)
-- Charts use simulated predictive data (2-month forward projection)
+All rights reserved. 2025 Nerti.

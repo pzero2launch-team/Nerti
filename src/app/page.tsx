@@ -1,7 +1,8 @@
 'use client'
 
 import React from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation';
+import Link from 'next/link'
 import { motion } from 'framer-motion'
 import {
   CreditCard,
@@ -281,8 +282,8 @@ export default function LandingPage() {
           </div>
           <div className="flex items-center gap-6 text-xs text-muted">
             <a href="/about" className="hover:text-primary transition-colors">About</a>
-            <span>Privacy Policy</span>
-            <span>Terms of Service</span>
+            <Link href="/privacy" className="hover:text-primary transition-colors">Privacy Policy</Link>
+            <Link href="/terms" className="hover:text-primary transition-colors">Terms of Service</Link>
           </div>
           <div className="text-xs text-muted">2025 Nerti. All rights reserved.</div>
         </div>
